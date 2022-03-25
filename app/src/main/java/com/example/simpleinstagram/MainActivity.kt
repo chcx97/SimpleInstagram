@@ -22,10 +22,11 @@ class MainActivity : AppCompatActivity() {
     fun queryPosts(){}
     // Specify which class to query
     val query: ParseQuery<Post> = ParseQuery.getQuery(Post::class.java)
-    query.getInBackground(object: FindCallback<Post>{
+    /*query.getInBackground(object: FindCallback<Post>{
         override fun done(objects:MutableList<Post>?, e: ParseException){
 
         }
+
+     */
     }
 
-}
