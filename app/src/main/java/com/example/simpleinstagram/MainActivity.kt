@@ -1,9 +1,9 @@
 package com.example.simpleinstagram
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -12,9 +12,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.parse.*
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 
 /*
     Let user create a post by taking a photo with their camera
@@ -36,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.submitBtn).setOnClickListener {
             // send post to server without an image
             // get the description that they have inputted
-            var description = findViewById<EditText>(R.id.etDescription).text.toString()
+            val description = findViewById<EditText>(R.id.etDescription).text.toString()
             val user = ParseUser.getCurrentUser()
             if (photoFile != null){
                 submitPost(description, user, photoFile!!)
@@ -107,6 +110,34 @@ class MainActivity : AppCompatActivity() {
                 val takenImage = BitmapFactory.decodeFile(photoFile!!.absolutePath)
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
+
+                // See code above
+
+                // See code above
+                val takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName))
+                // by this point we have the camera photo on disk
+                // by this point we have the camera photo on disk
+                val rawTakenImage = BitmapFactory.decodeFile(takenPhotoUri.path)
+                // See BitmapScaler.java: https://gist.github.com/nesquena/3885707fd3773c09f1bb
+                // See BitmapScaler.java: https://gist.github.com/nesquena/3885707fd3773c09f1bb
+                val resizedBitmap: Bitmap = BitmapScaler.scaleToFitWidth(rawTakenImage, SOME_WIDTH)
+                // Configure byte output stream
+
+                // Configure byte output stream
+                val bytes = ByteArrayOutputStream()
+                // Compress the image further
+                // Compress the image further
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes)
+                // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
+                // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
+                val resizedFile = getPhotoFileUri(photoFileName + "_resized")
+                resizedFile.createNewFile()
+                val fos = FileOutputStream(resizedFile)
+                // Write the bytes of the bitmap to file
+                // Write the bytes of the bitmap to file
+                fos.write(bytes.toByteArray())
+                fos.close()
+
                 val ivPreview: ImageView = findViewById(R.id.ivPicture)
                 ivPreview.setImageBitmap(takenImage)
             } else { // Result was a failure
@@ -182,6 +213,7 @@ class MainActivity : AppCompatActivity() {
         }
     companion object{
         const val TAG = "MainActivity"
+        const val SOME_WIDTH = 8000
     }
 }
 
