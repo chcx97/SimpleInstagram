@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.submitBtn).setOnClickListener {
             // send post to server without an image
             // get the description that they have inputted
-            val description = findViewById<EditText>(R.id.etDescription).text.toString()
+            var description = findViewById<EditText>(R.id.etDescription).text.toString()
             val user = ParseUser.getCurrentUser()
             if (photoFile != null){
                 submitPost(description, user, photoFile!!)
@@ -93,6 +93,8 @@ class MainActivity : AppCompatActivity() {
                 Log.i(TAG, "Successfully saved post")
                 // 1. Resetting the EditText field to be empty
                 // 2. Resetting the ImageView field to be empty
+                val intent =Intent(this@MainActivity, MainActivity::class.java)
+                startActivity(intent)
             }
         }
     }
