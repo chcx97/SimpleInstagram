@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity() {
                 // 1. Resetting the EditText field to be empty
                 // 2. Resetting the ImageView field to be empty
                 val intent =Intent(this@MainActivity, MainActivity::class.java)
+                finish()
                 startActivity(intent)
             }
         }
