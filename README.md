@@ -2,15 +2,16 @@
 
 **SimpleInstagram** is a photo sharing app similar to Instagram but using Parse as its backend.
 
-Time spent: **17** hours spent in total
+Time spent: **18** hours spent in total
 
-## User Stories
+## Instagram Part 2
+### User Stories
 
 The following **required** functionality is completed:
 
 - [x] User can view the last 20 posts submitted to "Instagram".
 - [x] The user should switch between different tabs - viewing all posts (feed view), compose (capture photos form camera) and profile tabs (posts made) using fragments and a Bottom Navigation View. (2 points)
-- [ ] User can pull to refresh the last 20 posts submitted to "Instagram".
+- [x] User can pull to refresh the last 20 posts submitted to "Instagram".
 
 The following **optional** features are implemented:
 
@@ -34,13 +35,17 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='walkthrough_simpleInsta7.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+Although this part was supposed to be the easier part of the project, I did run into some challenges when trying to finish the project. One of the challenges were trying to figure out how to go from the Compose Fragment to the Feed Fragment. Even though this wasn't a requirement in the user stories, I thought that it would make sense for the user to see their newly saved post in their feed. However, because I am fairly new to the concept of fragments, I wasn't sure how to get the user to go to the feed after submitting a post. I tried watching videos and reading other sources to help me understand how change from one fragment to another. After viewing various sources, I realized that in order to change from one fragment to another, we simply just include this line of code inside the submitPost function: 
+
+**fragmentManager?.beginTransaction()?.replace(R.id.flContainer, FeedFragment())?.commit()** 
+
+and it will send the user to the Feed Fragment once the user clicks the submit button. 
 
 ## Open-source libraries used
 
