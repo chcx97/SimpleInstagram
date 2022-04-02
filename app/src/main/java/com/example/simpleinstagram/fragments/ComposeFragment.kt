@@ -12,12 +12,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.fragment.app.FragmentTransaction
 import com.example.simpleinstagram.*
 import com.parse.ParseFile
 import com.parse.ParseUser
@@ -30,15 +28,15 @@ class ComposeFragment : Fragment() {
     val CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034
     val photoFileName = "photo.jpg"
     var photoFile: File? = null
-
+    lateinit var fragment: Fragment
     lateinit var ivPreview: ImageView
+    lateinit var description: String
 
     // onCreateView tells the fragment which layout file to use
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_compose, container, false)
     }
 
@@ -47,10 +45,11 @@ class ComposeFragment : Fragment() {
         // Set onClickListeners and setup logic
 
         ivPreview = view.findViewById(R.id.ivPicture)
+
         view.findViewById<Button>(R.id.submitBtn).setOnClickListener {
             // send post to server without an image
             // get the description that they have inputted
-            val description = view.findViewById<EditText>(R.id.etDescription).text.toString()
+            description = view.findViewById<EditText>(R.id.etDescription).text.toString()
             val user = ParseUser.getCurrentUser()
             if (photoFile != null){
                 submitPost(description, user, photoFile!!)
@@ -86,12 +85,12 @@ class ComposeFragment : Fragment() {
                 Log.i(MainActivity.TAG, "Successfully saved post")
                 // 1. Resetting the EditText field to be empty
                 // 2. Resetting the ImageView field to be empty
-                //val intent = Intent(requireContext(), ComposeFragment::class.java)
-                //activity.finish()
-                //startActivity(intent)
+                fragmentManager?.beginTransaction()?.replace(R.id.flContainer, FeedFragment())?.commit()
             }
         }
     }
+    fun setTextViewEmpty(textView: String){
+        (textView as EditText ).text.clear()   }
     fun onLaunchCamera() {
         // create Intent to take a picture and return control to the calling application
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)

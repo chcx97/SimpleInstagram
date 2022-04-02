@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.example.simpleinstagram.fragments.ComposeFragment
 import com.example.simpleinstagram.fragments.FeedFragment
 import com.example.simpleinstagram.fragments.ProfileFragment
@@ -36,7 +37,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val fragmentManager: FragmentManager = supportFragmentManager
+
+        val fragmentManager: FragmentManager = supportFragmentManager;
+
 
         findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnItemSelectedListener {
             // item -> will create a variable called item

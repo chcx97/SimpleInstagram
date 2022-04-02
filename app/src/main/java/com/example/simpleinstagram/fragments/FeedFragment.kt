@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.simpleinstagram.*
 import com.parse.FindCallback
 import com.parse.ParseException
@@ -21,7 +22,7 @@ open class FeedFragment : Fragment() {
 
     lateinit var postsRecyclerView: RecyclerView
     lateinit var adapter: PostAdapter
-
+    lateinit var swipeContainer: SwipeRefreshLayout
     val allPosts: MutableList<Post> = mutableListOf()
 
     override fun onCreateView(
@@ -47,6 +48,20 @@ open class FeedFragment : Fragment() {
         postsRecyclerView.adapter = adapter
         // 5. Set layout manager on RecyclerView
         postsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        swipeContainer = view.findViewById(R.id.swipeContainer)
+        swipeContainer.setOnRefreshListener {
+            Log.i(TAG, "Refreshing timeline")
+            queryPosts()
+        }
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light
+        )
 
         view.findViewById<Button>(R.id.logout_button).setOnClickListener {
             val user = ParseUser.getCurrentUser()
@@ -91,6 +106,7 @@ open class FeedFragment : Fragment() {
                         }
                         allPosts.addAll(posts)
                         adapter.notifyDataSetChanged()
+                        swipeContainer.isRefreshing = false
                     }
                 }
             }
