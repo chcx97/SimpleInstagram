@@ -51,6 +51,7 @@ and it will send the user to the Feed Fragment once the user clicks the submit b
 
 - [Android Async HTTP](https://github.com/codepath/CPAsyncHttpClient) - Simple asynchronous HTTP requests with JSON parsing
 - [Glide](https://github.com/bumptech/glide) - Image loading and caching library for Android
+- [Android Guide](https://docs.parseplatform.org/android/guide/#queries) - Setting a limit to number of results for queries 
 
 ## Instagram Part 1
 ### User Stories
